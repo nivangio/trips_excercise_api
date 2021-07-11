@@ -6,9 +6,9 @@ DATES_BASE_FILTER = "WHERE datetime between '{date_from}' AND '{date_to}'"
 POLYGON_BASE_FILTER = """ AND st_contains(st_geomfromtext(
 'polygon(({lon1} {lat1}, {lon1} {lat2}, {lon2} {lat2}, {lon2} {lat1}, {lon1} {lat1}))', 4326), 
 origin_coord )"""
-REGION_FILTER = " AND REGION = {region}"
+REGION_FILTER = " AND REGION = '{region}'"
 
-GROUPING = "GROUP BY EXTRACT('week' FROM datetime)"
+GROUPING = " GROUP BY EXTRACT('week' FROM datetime)"
 
 def create_query_string(args):
     ##Get dates for query
