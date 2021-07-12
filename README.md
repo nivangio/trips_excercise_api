@@ -33,3 +33,15 @@ If none of `bbox` or `region` are passed, the application raises a bad request. 
   * http://localhost:8000/trips_by_week?date_from=1500days&bbox=7,45,8,50
 
 **Note**: The API supports, `minutes`, `hours`, `days` and `weeks` only
+
+
+## Implementing in Cloud Services
+
+The diagram below illustrates how the solution could be implemented in Cloud Services:
+
+![Sample Diagram](https://user-images.githubusercontent.com/4649857/125214237-512af280-e28c-11eb-99cc-1255cf583299.png)
+
+  1. The file is ingested by the Data Ingestion Process and stores Data into the Data Warehouse and logs into a Bucket. This process can be deployed either with a "serverless" service such as Lambda in AWS or Cloud Functions in Google Cloud by uploading either "pure code" or by uploading the container to a registry (ECR in AWS or GCR in GC) and then invoking them using ECS or Google Container Engine. To store the logs, some slight changes to the script will be needed
+  2. For optimal analytical performance data **must** be stored in a Data Warehouse (Redshift in AWS BigQuery in GC) rather than a relational Database. If BigQuery is used, some slight changes to the ingestion process must be done and probably the data structure of the table will also be slightly different
+  3. Given the powerful dynamic upscaling and load balancing that is provided by API-oriented services in AWS or Google Cloud, it would be optimal to opt for the specific products that both services offer for this, i.e., Beanstalk and App Engine. To optimise deployment and ensure continuous delivery, a code pipeline must be set-up to update the API automatically whenever new code is pushed to the corresponding repository
+  4. An API Gateway to interface with the final user will 
